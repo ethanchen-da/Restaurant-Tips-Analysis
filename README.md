@@ -9,7 +9,8 @@ It includes details about the tips given to restaurant staff, such as the total 
 # First Step
 ## Data Import
 
-Trước khi import data, tôi sẽ tiến hành import thư việc Pandas và thư viện Matplotlib để phục vụ cho việc visualization thuận tiện cho phân tích
+Before importing the data, I will import the Pandas and Matplotlib libraries to facilitate visualization for easier analysis.
+
 
 ```python
 import pandas AS pd
@@ -21,7 +22,7 @@ Then load data from the following link: https://raw.githubusercontent.com/RusAbk
 url = 'https://raw.githubusercontent.com/RusAbk/sca_datasets/main/tips.csv'
 df = pd.read_csv(url)
 ```
-Sau khi import data thì chúng ta sẽ tiến hành khám phá dữ liệu
+After importing the data, we will proceed to explore the dataset.
 
 ## Data Exploration
 ### Sample
@@ -49,7 +50,7 @@ print(df.head(10))
 ```python
 print(df.info())
 ```
-Trước khi chuyển đổi types
+Before converting the data types
 
 | # | Column      | Non-Null Count | Dtype   |
 |:-:|:-------------|----------------:|:--------|
@@ -65,12 +66,13 @@ Trước khi chuyển đổi types
 **dtypes:** float64(2), int64(2), object(4)  
 **memory usage:** 15.4+ KB
 
-Có một vài cột có types là Objects nên tôi tiến hành chuyển đổi types và check again
+Some columns have the data type `object`, so I will convert their types and check them again.
+
 ```python
 df = df.convert_dtypes()
 print(df.info())
 ```
-Kết quả sau khi chuyển đổi types của một vài cột trong data gốc
+The result after converting the data types of some columns in the original dataset
 
 | # | Column      | Non-Null Count | Dtype   |
 |:-:|:-------------|----------------:|:--------|
@@ -101,27 +103,27 @@ print(df.describe())
 | 75%   | 182.250000 | 24.127500   | 3.562500   | 3.000000 |
 | max   | 243.000000 | 50.810000   | 10.000000  | 6.000000 |
 
-Từ các thông tin trên, tôi nhận thấy có thể tiếp tục tìm hiểu sâu hơn về các thông tin như smoker, time, size, tips, sex...
-Let's see chúng ta có gì nào
+From the information above, I noticed that we can further explore details such as **smoker, time, size, tips, sex**, and so on.
+Let’s see what insights we can uncover!
 
 ## Analysis
 Let's try to calculate measures of central tendency for the whole dataset first.
 ```python
 #Define Values
-common_tip_min = df.tip.min()
-common_tip_max = df.tip.max()
-common_tip_mean = df.tip.mean()
-common_tip_median = df.tip.median()
+Common_tip_min = df.tip.min()
+Common_tip_max = df.tip.max()
+Common_tip_mean = df.tip.mean()
+Common_tip_median = df.tip.median()
 
 # Make a list of values
-common_values = [common_tip_min, common_tip_max, common_tip_mean, common_tip_median]
+Common_values = [Common_tip_min, Common_tip_max, Common_tip_mean, Common_tip_median]
 # Round all the values to 4 decimal places
-common_values = map(lambda x: round(x, 4), common_values)
+Common_values = map(lambda x: round(x, 4), Common_values)
 
 # Make a dataframe from the list
-common_mct = pd.DataFrame(common_values, index=['min', 'max', 'mean', 'median'])
+Common_mct = pd.DataFrame(Common_values, index=['min', 'max', 'mean', 'median'])
 # Output the dataframe
-print(common_mct)
+print(Common_mct)
 ```
 |          |     0   |
 |----------|--------:|
@@ -130,7 +132,7 @@ print(common_mct)
 | mean     | 2.9983  |
 | median   | 2.9000  |
 
-Bên trên là whole dataset dưới dạng bảng, chúng ta sẽ đưa nó về dạng đồ thị histogram để có cái nhìn tổng quát hơn
+Above is the whole dataset in tabular form; we will convert it into **histograms** to get a more comprehensive visual overview.
 
 ```python
 df.tip.hist(color= '#FF4500', bins=15, figsize=(15, 5), edgecolor='black', alpha=0.8)
@@ -142,26 +144,27 @@ plt.show()
 ```
 <img width="1227" height="468" alt="output4" src="https://github.com/user-attachments/assets/98a3f30e-eb32-4ab2-a45a-f1fefcab8f4e" />
 
-Có thể thấy rõ rằng phần lớn tiền tips nằm trong khoảng dưới $5, giá trị tip cao nhất là $10. Khách hàng chủ yếu tips $2 - $4 là nhiều nhất. 
+It is clear that most tip amounts are below **$5**, with the highest tip being $10.
+The majority of customers tend to tip $2–$4.
 
-### Sự khác biệt về giới tính
+### The difference by gender
 
 ```python
 #Tạo DataFrame
-male_tip = df[df.sex == 'Male']
-female_tip = df[df.sex == 'Female']
+Male_tip = df[df.sex == 'Male']
+Female_tip = df[df.sex == 'Female']
 
-male_tip_min = male_tip.tip.min()
-male_tip_max = male_tip.tip.max()
-male_tip_mean = male_tip.tip.mean()
-male_tip_median = male_tip.tip.median()
+Male_tip_min = male_tip.tip.min()
+Male_tip_max = male_tip.tip.max()
+Male_tip_mean = male_tip.tip.mean()
+Male_tip_median = male_tip.tip.median()
 
-female_tip_min = female_tip.tip.min()
-female_tip_max = female_tip.tip.max()
-female_tip_mean = female_tip.tip.mean()
-female_tip_median = female_tip.tip.median()
+Female_tip_min = female_tip.tip.min()
+Female_tip_max = female_tip.tip.max()
+Female_tip_mean = female_tip.tip.mean()
+Female_tip_median = female_tip.tip.median()
 
-dataset = [male_tip, female_tip]
+dataset = [Male_tip, Female_tip]
 titles = ['Male Tips', 'Female Tips']
 colors = ['#2166ac', '#b2182b']
 fig, axs = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
@@ -175,6 +178,7 @@ for i in range(2):
   axs[i].set_ylabel('Frequency')
   axs[i].set_title(titles[i])
   axs[i].grid(axis='x')
+  mean = dataset[i].tip.mean()     #Mean for each group
   axs[i].axvline(mean, color='red', linestyle='--', label=f'Mean: {mean:.2f}')
   axs[i].legend()
 
@@ -182,11 +186,13 @@ for i in range(2):
 plt.tight_layout()
 plt.show()
 ```
-<img width="1490" height="490" alt="output" src="https://github.com/user-attachments/assets/6a5a0f66-8c44-4f9a-83b4-54a397743e32" />
+<img width="1490" height="490" alt="SEX" src="https://github.com/user-attachments/assets/4b066a89-7606-44b5-b5fd-3dfcffefbbc0" />
+
 
 Result: When comparing tipping behavior between males and females, the results show that males tend to tip more frequently than females. Additionally, the tip amounts given by males are generally higher than those given by females. This trend clearly highlights that males are significantly more likely to tip, and to tip higher amounts, compared to females.
 
-### Sự khác biệt về tiền tips giữa Lunch và Dinner
+###The difference in tip amounts between Lunch and Dinner
+
 ```python
 # Define Values
 Lunch_tip = df[df.time == 'Lunch']
@@ -202,7 +208,7 @@ Dinner_tip_max = Dinner_tip.tip.max()
 Dinner_tip_mean = Dinner_tip.tip.mean()
 Dinner_tip_median = Dinner_tip.tip.median()
 
-dataset2 = [Lunch_tip, Dinner_tip]
+dataset1 = [Lunch_tip, Dinner_tip]
 titles = ['Lunch Tips', 'Dinner Tips']
 colors = ['#b40426', '#3b4cc0']
 fig, axs = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
@@ -212,11 +218,12 @@ plt.style.use('seaborn-v0_8')
 
 # Make a Histogram
 for i in range(2):
-  axs[i].hist(dataset2[i].tip, color= colors[i], edgecolor='black', alpha=0.8)
+  axs[i].hist(dataset1[i].tip, color= colors[i], edgecolor='black', alpha=0.8)
   axs[i].set_xlabel('Tip value')
   axs[i].set_ylabel('Frequency')
   axs[i].set_title(titles[i])
   axs[i].grid(axis='x')
+  mean = dataset1[i].tip.mean()
   axs[i].axvline(mean, color='black', linestyle='--', label=f'Mean: {mean:.2f}')
   axs[i].legend()
 
@@ -228,27 +235,27 @@ plt.show()
 
 Result: A clear gap can be observed between the tipping behavior of dinner and lunch customers. Those who dine in the evening tend to tip more frequently, and the tip amounts are also higher compared to those who come for lunch.
 
-### Sự khác biệt giữa tiền tip trong các bữa ăn weekday và weekend
+### The difference in tip amounts between weekday and weekend meals
 
 ```python
 # Filter data by day: weekend and weekdays
-weekend_tip = df[df.day.isin(['Sat', 'Sun'])]
-weekday_tip = df[~df.day.isin(['Sat', 'Sun'])]
+Weekend_tip = df[df.day.isin(['Sat', 'Sun'])]
+Weekday_tip = df[~df.day.isin(['Sat', 'Sun'])]
 
 # Compute basic statistics for weekend tips
-weekend_tip_min = weekend_tip.tip.min()
-weekend_tip_max = weekend_tip.tip.max()
-weekend_tip_mean = weekend_tip.tip.mean()
-weekend_tip_median = weekend_tip.tip.median()
+Weekend_tip_min = weekend_tip.tip.min()
+Weekend_tip_max = weekend_tip.tip.max()
+Weekend_tip_mean = weekend_tip.tip.mean()
+Weekend_tip_median = weekend_tip.tip.median()
 
 # Compute basic statistics for weekday tips
-weekday_tip_min = weekday_tip.tip.min()
-weekday_tip_max = weekday_tip.tip.max()
-weekday_tip_mean = weekday_tip.tip.mean()
-weekday_tip_median = weekday_tip.tip.median()
+Weekday_tip_min = weekday_tip.tip.min()
+Weekday_tip_max = weekday_tip.tip.max()
+Weekday_tip_mean = weekday_tip.tip.mean()
+Weekday_tip_median = weekday_tip.tip.median()
 
 # Prepare datasets for plotting
-dataset1 = [weekend_tip, weekday_tip]
+dataset2 = [weekend_tip, weekday_tip]
 titles = ['Weekend Tips', 'Weekday Tips']
 colors = ['#e9a3c9', '#a1d76a']
 fig, axs = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
@@ -256,11 +263,12 @@ mean = df.tip.mean()
 
 # Plot histograms for each dataset
 for i in range(2):
-  axs[i].hist(dataset1[i].tip, bins=15, color= colors[i], edgecolor='black', alpha=0.8)
+  axs[i].hist(dataset2[i].tip, bins=15, color= colors[i], edgecolor='black', alpha=0.8)
   axs[i].set_xlabel('Tip value')
   axs[i].set_ylabel('Frequency')
   axs[i].set_title(titles[i])
   axs[i].grid(axis='x')  # Display grid lines along x-axis
+  mean = dataset2[i].tip.mean()
   axs[i].axvline(mean, color='red', linestyle='--', label=f'Mean: {mean:.2f}') # Draw vertical line for overall mean
   axs[i].legend()
 
@@ -268,34 +276,46 @@ plt.tight_layout() # Adjust layout to prevent overlap
 plt.show() # Show the plot
 ```
 
+<img width="1490" height="490" alt="Weekeand" src="https://github.com/user-attachments/assets/f95baecb-8288-415b-a9cf-3fc4a8e0774e" />
 
-<img width="1490" height="490" alt="output5" src="https://github.com/user-attachments/assets/3a261943-7595-4c47-b343-9383816b10b2" />
 
-Result:
-Kết quả hiển thị rõ rằng xu hướng tips của khách hàng sử dụng dịch vụ của nhà hàng vào weekend cao hơn weekday, giá trị tip cao nhất của weekend là $10 trong khi weekay chỉ có $6. 
-Từ đó có thể tạm thời kết luận là khách hàng đến vào cuối tuần thường xuyên tip hơn và giá trị tip cũng cao hơn khách hàng weekday.
+Weekday:
+The distribution is wider, but high tip values are less frequent compared to the weekend group.
+Most tips range from $2 to $5, with none exceeding $6.
+The average tip is $2.76, indicating that tip amounts on weekdays are generally lower than on weekends.
+Overall, tipping activity is also less frequent during weekdays.
 
-### Mối tương quan giữa smokers và non-smokers và tips
+Weekend:
+The distribution is slightly skewed, with most tips concentrated between $2 and $4.
+There are several higher tips ranging from $6 to $10, showing that customers tend to give larger tips on weekends.
+The average tip is $3.12, suggesting that customers are more generous during the weekend.
+
+Overview:
+Customers tend to tip more often and give higher tip amounts during weekends than on weekdays.
+During weekdays, customers tip less frequently and with smaller amounts.
+Although the difference in average tip value is not large (around $0.36), the trend clearly shows that tips are higher on weekends than on weekdays.
+
+### The correlation between smokers, non-smokers, and tips
 
 ```python
 # Filter data by smokers and non-smokers
-smokers_tip = df[df.smoker == 'Yes']
-non_smokers_tip = df[df.smoker == 'No']
+Smokers_tip = df[df.smoker == 'Yes']
+Non_smokers_tip = df[df.smoker == 'No']
 
 # Compute basic statistics for smokers tips
-smokers_tip_min = smokers_tip.tip.min()
-smokers_tip_max = smokers_tip.tip.max()
-smokers_tip_mean = smokers_tip.tip.mean()
-smokers_tip_median = smokers_tip.tip.median()
+Smokers_tip_min = Smokers_tip.tip.min()
+Smokers_tip_max = Smokers_tip.tip.max()
+Smokers_tip_mean = Smokers_tip.tip.mean()
+Smokers_tip_median = Smokers_tip.tip.median()
 
 # Compute basic statistics for non-smokers tips
-non_smokers_tip_min = non_smokers_tip.tip.min()
-non_smokers_tip_max = non_smokers_tip.tip.max()
-non_smokers_tip_mean = non_smokers_tip.tip.mean()
-non_smokers_tip_median = non_smokers_tip.tip.median()
+Non_smokers_tip_min = Non_smokers_tip.tip.min()
+Non_smokers_tip_min = Non_smokers_tip.tip.max()
+Non_smokers_tip_mean = Non_smokers_tip.tip.mean()
+Non_smokers_tip_median = Non_smokers_tip.tip.median()
 
 # Prepare datasets for plotting
-dataset3 = [smokers_tip, non_smokers_tip]
+dataset3 = [Smokers_tip, Non_smokers_tip]
 titles = ['Smokers Tips', 'Non-Smokers Tips']
 colors = ['#2166ac', '#b2182b']
 fig, axs = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
@@ -309,12 +329,29 @@ for i in range(2):
     axs[i].set_ylabel('Frequency')
     axs[i].set_title(titles[i])
     axs[i].grid(axis='x')
+    mean = dataset3[i].tip.mean()
     axs[i].axvline(mean, color='orange', linestyle='--', label=f'Mean: {mean:.2f}') # Draw vertical line for overall mean
     axs[i].legend()
 
 plt.tight_layout() # Adjust layout to prevent overlap
 plt.show() # Show the plot
 ```
-Result:
-Nhóm non-smokers 
+<img width="1490" height="490" alt="Smokers!" src="https://github.com/user-attachments/assets/af8f6367-3fa3-438d-b4b8-3ca2bad40999" />
+
+
+
+Smokers:
+From the chart, it can be seen that the distribution is left-skewed, with most tip amounts ranging from $2 to $4.
+There are a few higher values between $6 and $10, but they occur less frequently.
+The average tip is around $3.
+There are also a few small outliers (around $7–$10), indicating that some customers gave unusually high tips.
+
+Non-Smokers:
+The distribution is more concentrated around $2–$4, with fewer outliers compared to the smokers group.
+It also shows a more symmetrical pattern.
+
+Preliminary Conclusion:
+Smokers tend to have more diverse tipping behavior (greater variation), while non-smokers tend to have more consistent tip amounts (around the average).
+However, the average tip amount between the two groups is not significantly different.
+
 
