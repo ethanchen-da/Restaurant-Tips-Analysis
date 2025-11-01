@@ -355,5 +355,5 @@ Smokers tend to have more diverse tipping behavior (greater variation), while no
 However, the average tip amount between the two groups is not significantly different.
 
 
-## Summary
+# Summary
 From the analysis, we can see clear patterns in tipping behavior. Most tips fall below $5, with the majority around $2–$4, and the maximum tip recorded is $10. Customers tend to tip more on weekends compared to weekdays, and Dinner generally receives higher tips than Lunch. Differences are also observed between smokers and non-smokers, as well as between genders, although average tip values are often similar. Overall, these insights provide a better understanding of customer tipping habits and can help guide service and business strategies.
